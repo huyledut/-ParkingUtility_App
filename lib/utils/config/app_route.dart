@@ -8,6 +8,8 @@ import '../../feature/authentication/presentation/view/login/login_bindings.dart
 import '../../feature/authentication/presentation/view/login/login_page.dart';
 import '../../feature/authentication/presentation/view/welcome/welcome_bindings.dart';
 import '../../feature/authentication/presentation/view/welcome/welcome_page.dart';
+import '../../feature/authentication/presentation/view/register_customer/register_customer_bindings.dart';
+import '../../feature/authentication/presentation/view/register_customer/register_customer_page.dart';
 
 class AppRoute {
   static String root = '/';
@@ -49,6 +51,12 @@ class AppRoute {
       name: login,
       page: LoginPage.new,
       binding: LoginBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: registerCustomer,
+      page: RegisterCustomerPage.new,
+      binding: RegisterCustomerBindings(),
       transition: Transition.cupertino,
     ),
   ];
