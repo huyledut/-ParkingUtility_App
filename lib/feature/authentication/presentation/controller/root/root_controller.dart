@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:dut_packing_utility/base/domain/base_observer.dart';
 import 'package:dut_packing_utility/utils/services/storage_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -16,7 +13,7 @@ class RootController extends GetxController {
     super.onInit();
     Future.delayed(const Duration(seconds: 1)).whenComplete(() async {
       FlutterNativeSplash.remove();
-      N.toDemoPage();
+      N.toWelcomePage();
     });
     appStart();
   }

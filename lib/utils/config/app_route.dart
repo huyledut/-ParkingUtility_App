@@ -4,6 +4,10 @@ import '../../../feature/authentication/presentation/view/demo/demo_bindings.dar
 import '../../../feature/authentication/presentation/view/demo/demo_page.dart';
 import '../../feature/authentication/presentation/view/root/root_bindings.dart';
 import '../../feature/authentication/presentation/view/root/root_page.dart';
+import '../../feature/authentication/presentation/view/login/login_bindings.dart';
+import '../../feature/authentication/presentation/view/login/login_page.dart';
+import '../../feature/authentication/presentation/view/welcome/welcome_bindings.dart';
+import '../../feature/authentication/presentation/view/welcome/welcome_page.dart';
 
 class AppRoute {
   static String root = '/';
@@ -34,6 +38,18 @@ class AppRoute {
       page: DemoPage.new,
       binding: DemoBindings(),
       transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: welcome,
+      page: WelcomePage.new,
+      binding: WelcomeBindings(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: login,
+      page: LoginPage.new,
+      binding: LoginBindings(),
+      transition: Transition.cupertino,
     ),
   ];
 }
