@@ -1,4 +1,5 @@
 import 'package:dut_packing_utility/base/presentation/base_controller.dart';
+import 'package:dut_packing_utility/feature/authentication/data/providers/remote/request/register_request.dart';
 import 'package:dut_packing_utility/feature/authentication/data/providers/remote/request/username_password_request.dart';
 
 import '../../domain/repositoties/auth_repo.dart';
@@ -13,4 +14,8 @@ class AuthRepoImpl implements AuthRepo {
     return _authAPI.login(request);
   }
 
+  @override
+  Future<AccountModel> register(RegisterRequest request) {
+    return _authAPI.register(request);
+  }
 }

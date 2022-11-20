@@ -1,15 +1,22 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:dut_packing_utility/feature/authentication/data/providers/remote/request/register_request.dart';
+import 'package:dut_packing_utility/feature/authentication/domain/usecases/register_usecase.dart';
+import 'package:dut_packing_utility/feature/customer/domain/usecases/get_customer_info_usecase.dart';
+import 'package:dut_packing_utility/utils/config/app_navigation.dart';
 import 'package:dut_packing_utility/utils/extension/form_builder.dart';
+import 'package:dut_packing_utility/utils/services/storage_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../../../base/presentation/base_controller.dart';
 
 class RegisterCustomerController extends BaseController {
-  RegisterCustomerController();
+  RegisterCustomerController(this._registerUsecase, this._storageService, this._getCustomerInfoUsecase);
 
-
+  final RegisterUsecase _registerUsecase;
+  final StorageService _storageService;
+  final GetCustomerInfoUsecase _getCustomerInfoUsecase;
 
   final usernameTextEditingController = TextEditingController();
   final emailTextEditingController = TextEditingController();
@@ -73,7 +80,72 @@ class RegisterCustomerController extends BaseController {
       }
 
       if (registerState.isLoading) return;
-      // register feature
+      _registerUsecase.execute(
+        observer: Observer(
+          onSubscribe: () {
+            registerState.onLoading();
+            ignoringPointer.value = true;
+            hideErrorMessage();
+          },
+          onSuccess: (account) {
+            registerState.onSuccess();
+            account.roleId = 30;
+            _storageService.setToken(account.toJson().toString());
+
+            _getCustomerInfoUsecase.execute(
+              observer: Observer(
+                onSubscribe: () {},
+                onSuccess: (customer) async {
+                  print(customer.toJson());
+                  await _storageService.setCustomer(customer.toJson().toString());
+                  if (customer.name != null &&
+                      customer.gender != null &&
+                      customer.birthday != null &&
+                      customer.phoneNumber != null &&
+                      customer.activityClass != null &&
+                      customer.facultyId != null) {
+                    print("Go to home");
+                    N.toHome();
+                  } else {
+                     print("Go to profile");
+                    N.toProfile();
+                  }
+                },
+                onError: (e) async {
+                  if (e is DioError) {
+                    _showToastMessage(e.message);
+                  }
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                  ignoringPointer.value = false;
+                  registerState.onSuccess();
+                },
+              ),
+            );
+          },
+          onError: (e) {
+            if (e is DioError) {
+              if (e.response != null) {
+                _showToastMessage(e.response!.data['message'].toString());
+              } else {
+                _showToastMessage(e.message);
+              }
+            }
+            if (kDebugMode) {
+              print(e.toString());
+            }
+            ignoringPointer.value = false;
+            registerState.onSuccess();
+          },
+        ),
+        input: RegisterRequest(
+          _username.trim(),
+          _password.trim(),
+          _email.trim(),
+          _confirmPassword.trim(),
+        ),
+      );
     } on Exception catch (e) {
       isDisableButton.value = true;
     }
