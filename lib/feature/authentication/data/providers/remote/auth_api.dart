@@ -1,5 +1,6 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:dio/dio.dart';
+import 'package:dut_packing_utility/feature/authentication/data/providers/remote/request/register_request.dart';
 import 'package:dut_packing_utility/feature/authentication/data/providers/remote/request/username_password_request.dart';
 import 'package:retrofit/http.dart';
 
@@ -14,4 +15,6 @@ abstract class AuthAPI {
   @POST('/Auth/Login')
   Future<AccountModel> login(@Body() UsernamePasswordRequest request);
 
+  @POST('/Auth/Register')
+  Future<AccountModel> register(@Body() RegisterRequest request);
 }
