@@ -1,4 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:dut_packing_utility/feature/authentication/data/providers/remote/auth_api.dart';
+import 'package:dut_packing_utility/feature/authentication/data/repositories_imp/auth_repo_impl.dart';
+import 'package:dut_packing_utility/feature/authentication/domain/repositoties/auth_repo.dart';
+import 'package:dut_packing_utility/feature/customer/data/providers/remote/customer_api.dart';
+import 'package:dut_packing_utility/feature/customer/data/repositories_imp/customer_repo_impl.dart';
+import 'package:dut_packing_utility/feature/customer/domain/repositoties/customer_repo.dart';
 import 'package:get/instance_manager.dart';
 
 import '../../../feature/authentication/data/repositories_imp/user_repo_impl.dart';
@@ -28,10 +34,20 @@ class AppBinding extends Bindings {
       () => UserAPI(Get.find<DioBuilder>()),
       fenix: true,
     );
+    Get.lazyPut(
+      () => AuthAPI(Get.find<DioBuilder>()),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => CustomerAPI(Get.find<DioBuilder>()),
+      fenix: true,
+    );
   }
 
   void injectRepository() {
     Get.put<UserRepo>(UserRepoImpl());
+    Get.put<AuthRepo>(AuthRepoImpl());
+    Get.put<CustomerRepo>(CustomerRepoImpl());
   }
 
   void injectService() {
