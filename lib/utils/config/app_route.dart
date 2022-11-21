@@ -1,3 +1,5 @@
+import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_bindings.dart';
+import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_page.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
@@ -57,6 +59,12 @@ class AppRoute {
       name: registerCustomer,
       page: RegisterCustomerPage.new,
       binding: RegisterCustomerBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: profile,
+      page: ProfilePage.new,
+      binding: ProfileBindings(),
       transition: Transition.cupertino,
     ),
   ];
