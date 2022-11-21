@@ -1,3 +1,5 @@
+import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_bindings.dart';
+import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_page.dart';
 import 'package:get/route_manager.dart';
@@ -65,6 +67,12 @@ class AppRoute {
       name: profile,
       page: ProfilePage.new,
       binding: ProfileBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: home,
+      page: HomePage.new,
+      binding: HomeBindings(),
       transition: Transition.cupertino,
     ),
   ];
