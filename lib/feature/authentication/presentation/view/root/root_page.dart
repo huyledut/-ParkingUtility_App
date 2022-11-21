@@ -76,7 +76,7 @@ class RootPage extends GetView<RootController> {
             child: Container(
               width: double.infinity,
               child: Text(
-                'BCHQT - 0.0.1 (1)',
+                'BCHTQ - 0.1.0',
                 style: AppTextStyle.w400s10(ColorName.gray828),
                 textAlign: TextAlign.center,
               ),
