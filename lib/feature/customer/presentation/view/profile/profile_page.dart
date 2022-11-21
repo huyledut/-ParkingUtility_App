@@ -57,27 +57,23 @@ class ProfilePage extends BaseWidget<ProfileController> {
                         Positioned(
                           top: widthScreen * (196 / 375) - 41,
                           right: 40,
-                          child: CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: (() {}),
-                            child: Container(
-                              height: 82,
-                              width: 82,
-                              decoration: kGradientBoxDecoration,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Container(
-                                    height: 82,
+                          child: Container(
+                            height: 82,
+                            width: 82,
+                            decoration: kGradientBoxDecoration,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                  height: 82,
+                                  width: 82,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(82),
+                                  ),
+                                  child: Assets.images.profileIcon.image(
                                     width: 82,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(82),
-                                    ),
-                                    child: Assets.images.profileIcon.image(
-                                      width: 82,
-                                      height: 82,
-                                      fit: BoxFit.cover,
-                                    )),
-                              ),
+                                    height: 82,
+                                    fit: BoxFit.cover,
+                                  )),
                             ),
                           ),
                         ),
