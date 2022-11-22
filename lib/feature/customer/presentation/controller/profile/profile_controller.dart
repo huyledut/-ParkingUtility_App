@@ -5,8 +5,10 @@ import 'package:dut_packing_utility/base/presentation/base_controller.dart';
 import 'package:dut_packing_utility/base/presentation/base_widget.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/customer_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/faculties_model.dart';
+import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/customer_update_request.dart';
 import 'package:dut_packing_utility/feature/customer/domain/usecases/get_customer_info_usecase.dart';
 import 'package:dut_packing_utility/feature/customer/domain/usecases/get_faculties_usecase.dart';
+import 'package:dut_packing_utility/feature/customer/domain/usecases/update_customer_usecase.dart';
 import 'package:dut_packing_utility/utils/config/app_navigation.dart';
 import 'package:dut_packing_utility/utils/extension/form_builder.dart';
 import 'package:dut_packing_utility/utils/services/storage_service.dart';
@@ -16,13 +18,15 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class ProfileController extends BaseController<bool> {
   ProfileController(
     this._storageService,
-    this._getCustomerInfoUsecase,
     this._getFacultiesUsecase,
+    this._updateCustomerUsecase,
+    this._getCustomerInfoUsecase,
   );
 
   final StorageService _storageService;
-  final GetCustomerInfoUsecase _getCustomerInfoUsecase;
   final GetFacultiesUsecase _getFacultiesUsecase;
+  final UpdateCustomerUsecase _updateCustomerUsecase;
+  final GetCustomerInfoUsecase _getCustomerInfoUsecase;
 
   final phoneTextEditingController = TextEditingController();
   final nameTextEditingController = TextEditingController();
@@ -134,7 +138,43 @@ class ProfileController extends BaseController<bool> {
       customer.value.activityClass = _class;
 
       if (updateState.isLoading) return;
-      // update profile
+      _updateCustomerUsecase.execute(
+        observer: Observer(
+          onSubscribe: () {
+            ignoringPointer.value = true;
+            updateState.onLoading();
+            hideErrorMessage();
+          },
+          onSuccess: (_) async {
+            ignoringPointer.value = false;
+            updateState.onSuccess();
+            loadCustomerInfo();
+          },
+          onError: (e) async {
+            if (e is DioError) {
+              if (e.response != null) {
+                _showToastMessage(e.response!.data['errors'].toString());
+                print(e.response!.data['errors'].toString());
+              } else {
+                _showToastMessage(e.message);
+              }
+            }
+            if (kDebugMode) {
+              print(e.toString());
+            }
+            ignoringPointer.value = false;
+            updateState.onSuccess();
+          },
+        ),
+        input: CustomerUpdateRequest(
+          customer.value.name,
+          customer.value.gender,
+          birthdayString.value,
+          customer.value.phoneNumber,
+          customer.value.activityClass,
+          customer.value.facultyId,
+        ),
+      );
     } on Exception catch (e) {
       isDisableButton.value = true;
     }
