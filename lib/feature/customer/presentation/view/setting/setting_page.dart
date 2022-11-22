@@ -86,7 +86,7 @@ class SettingPage extends BaseWidget<SettingController> {
                       color: ColorName.primaryColor,
                     ),
                     topBorder: true,
-                    onPressed: () {},
+                    onPressed: controller.logout,
                   ),
                 ],
               ),
