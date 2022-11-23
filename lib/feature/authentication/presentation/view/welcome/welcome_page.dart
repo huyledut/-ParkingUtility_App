@@ -69,7 +69,7 @@ class WelcomePage extends GetView<WelcomeController> {
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(bottom: 30),
         child: Text(
-          'BCHTQ - 0.1.0',
+          'BCHTQ - 1.0.0',
           style: AppTextStyle.w400s10(ColorName.gray828),
           textAlign: TextAlign.center,
         ),
