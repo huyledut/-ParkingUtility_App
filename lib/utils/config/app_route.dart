@@ -4,6 +4,8 @@ import 'package:dut_packing_utility/feature/customer/presentation/view/profile/p
 import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/setting/setting_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/setting/setting_page.dart';
+import 'package:dut_packing_utility/feature/staff/presentation/view/staff_bindings.dart';
+import 'package:dut_packing_utility/feature/staff/presentation/view/staff_page.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
@@ -81,6 +83,12 @@ class AppRoute {
       name: setting,
       page: SettingPage.new,
       binding: SettingBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: staffPage,
+      page: StaffPage.new,
+      binding: StaffBindings(),
       transition: Transition.cupertino,
     ),
   ];
