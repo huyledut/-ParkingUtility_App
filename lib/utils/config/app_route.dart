@@ -1,3 +1,5 @@
+import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_bindings.dart';
+import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_bindings.dart';
@@ -89,6 +91,12 @@ class AppRoute {
       name: staffPage,
       page: StaffPage.new,
       binding: StaffBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: addVehical,
+      page: AddVehicalPage.new,
+      binding: AddVehicalBindings(),
       transition: Transition.cupertino,
     ),
   ];
