@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dut_packing_utility/feature/authentication/data/models/ch%E1%BA%B9ck_in_model.dart';
+import 'package:dut_packing_utility/feature/customer/data/models/ch%E1%BA%B9ck_in_model.dart';
 import 'package:dut_packing_utility/feature/staff/data/providers/remote/request/create_check_out_request.dart';
 import 'package:dut_packing_utility/feature/staff/domain/usecases/create_check_out_usecase.dart';
 import "package:intl/intl.dart";

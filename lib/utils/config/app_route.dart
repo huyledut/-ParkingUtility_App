@@ -1,5 +1,7 @@
 import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_page.dart';
+import 'package:dut_packing_utility/feature/customer/presentation/view/history/history_bindings.dart';
+import 'package:dut_packing_utility/feature/customer/presentation/view/history/history_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/home/home_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/profile/profile_bindings.dart';
@@ -12,14 +14,14 @@ import 'package:get/route_manager.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
 import '../../../feature/authentication/presentation/view/demo/demo_page.dart';
-import '../../feature/authentication/presentation/view/root/root_bindings.dart';
-import '../../feature/authentication/presentation/view/root/root_page.dart';
 import '../../feature/authentication/presentation/view/login/login_bindings.dart';
 import '../../feature/authentication/presentation/view/login/login_page.dart';
-import '../../feature/authentication/presentation/view/welcome/welcome_bindings.dart';
-import '../../feature/authentication/presentation/view/welcome/welcome_page.dart';
 import '../../feature/authentication/presentation/view/register_customer/register_customer_bindings.dart';
 import '../../feature/authentication/presentation/view/register_customer/register_customer_page.dart';
+import '../../feature/authentication/presentation/view/root/root_bindings.dart';
+import '../../feature/authentication/presentation/view/root/root_page.dart';
+import '../../feature/authentication/presentation/view/welcome/welcome_bindings.dart';
+import '../../feature/authentication/presentation/view/welcome/welcome_page.dart';
 
 class AppRoute {
   static String root = '/';
@@ -70,6 +72,12 @@ class AppRoute {
       transition: Transition.cupertino,
     ),
     GetPage(
+      name: staffPage,
+      page: StaffPage.new,
+      binding: StaffBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
       name: profile,
       page: ProfilePage.new,
       binding: ProfileBindings(),
@@ -82,21 +90,21 @@ class AppRoute {
       transition: Transition.cupertino,
     ),
     GetPage(
+      name: addVehical,
+      page: AddVehicalPage.new,
+      binding: AddVehicalBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
       name: setting,
       page: SettingPage.new,
       binding: SettingBindings(),
       transition: Transition.cupertino,
     ),
     GetPage(
-      name: staffPage,
-      page: StaffPage.new,
-      binding: StaffBindings(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: addVehical,
-      page: AddVehicalPage.new,
-      binding: AddVehicalBindings(),
+      name: history,
+      page: HistoryPage.new,
+      binding: HistoryBindings(),
       transition: Transition.cupertino,
     ),
   ];

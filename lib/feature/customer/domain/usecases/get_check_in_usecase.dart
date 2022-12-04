@@ -1,4 +1,4 @@
-import 'package:dut_packing_utility/feature/authentication/data/models/ch%E1%BA%B9ck_in_model.dart';
+import 'package:dut_packing_utility/feature/customer/data/models/ch%E1%BA%B9ck_in_model.dart';
 import 'package:dut_packing_utility/feature/customer/domain/repositoties/customer_repo.dart';
 
 import '../../../../base/domain/base_usecase.dart';
