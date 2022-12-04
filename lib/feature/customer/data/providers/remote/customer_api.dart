@@ -1,5 +1,6 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:dio/dio.dart';
+import 'package:dut_packing_utility/feature/authentication/data/models/ch%E1%BA%B9ck_in_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/customer_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/faculties_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/add_vehical_request.dart';
@@ -33,4 +34,7 @@ abstract class CustomerAPI {
 
   @POST('/Profile/ChangePassword')
   Future<void> changePassword(@Body() ChangePasswordRequest request);
+
+  @GET('/CheckIns/GetByUsername')
+  Future<CheckInModel> getCheckIn();
 }
