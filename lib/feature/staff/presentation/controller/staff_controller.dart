@@ -1,13 +1,19 @@
 import 'dart:convert';
+
+import 'package:dut_packing_utility/feature/authentication/data/models/ch%E1%BA%B9ck_in_model.dart';
+import 'package:dut_packing_utility/feature/staff/data/providers/remote/request/create_check_out_request.dart';
 import 'package:dut_packing_utility/feature/staff/domain/usecases/create_check_out_usecase.dart';
 import "package:intl/intl.dart";
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:dut_packing_utility/base/presentation/base_controller.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/customer_model.dart';
+import 'package:dut_packing_utility/feature/staff/data/providers/remote/request/create_check_in_request.dart';
 import 'package:dut_packing_utility/feature/staff/domain/usecases/create_check_in_usecase.dart';
 import 'package:dut_packing_utility/utils/config/app_navigation.dart';
 import 'package:dut_packing_utility/utils/services/storage_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class StaffController extends BaseController {
@@ -28,6 +34,7 @@ class StaffController extends BaseController {
   var confirmState = false.obs;
 
   var customer = CustomerModel().obs;
+  var checkIn = CheckInModel().obs;
 
   @override
   void onClose() {
@@ -55,6 +62,7 @@ class StaffController extends BaseController {
             }
           } else {
             try {
+              checkIn.value = CheckInModel.fromJson(jsonDecode(result));
               isChecked.value = true;
             } catch (e) {
               showOkDialog(title: "Mã không hợp lệ", message: "Đây không phải là một mã hợp lệ vui lòng kiểm tra lại");
@@ -89,9 +97,79 @@ class StaffController extends BaseController {
     DateTime now = DateTime.now();
     String timeNow = DateFormat('yyyy-MM-ddTHH:mm:ss\'Z\'').format(now);
     if (isCheckIn.value) {
-      // check in
+      _createCheckInUsecase.execute(
+        observer: Observer(
+          onSubscribe: () {
+            confirmState.value = true;
+          },
+          onSuccess: (_) async {
+            await showOkDialog(
+              title: "Đi vào",
+              message: "Xác nhận thành công",
+            );
+            pauseScan();
+          },
+          onError: (e) {
+            confirmState.value = false;
+            showOkDialog(
+              title: "Đi vào",
+              message: "Xác nhận không thành công vui lòng thực hiện lại",
+            );
+            if (e is DioError) {
+              if (e.response != null) {
+                print(e.response!.data['errors'].toString());
+                print(e.response!.data['error'].toString());
+              } else {
+                print(e.message);
+              }
+            }
+            if (kDebugMode) {
+              print(e.toString());
+            }
+            if (kDebugMode) {
+              print(e);
+            }
+          },
+        ),
+        input: CreateCheckInRequest(customer.value.username, customer.value.vehical!.id, timeNow),
+      );
     } else {
-      // check out
+      _createCheckOutUsecase.execute(
+        observer: Observer(
+          onSubscribe: () {
+            confirmState.value = true;
+          },
+          onSuccess: (_) async {
+            await showOkDialog(
+              title: "Đi ra",
+              message: "Xác nhận thành công",
+            );
+            pauseScan();
+          },
+          onError: (e) {
+            confirmState.value = false;
+            showOkDialog(
+              title: "Đi ra",
+              message: "Xác nhận không thành công vui lòng thực hiện lại",
+            );
+            if (e is DioError) {
+              if (e.response != null) {
+                print(e.response!.data['errors'].toString());
+                print(e.response!.data['error'].toString());
+              } else {
+                print(e.message);
+              }
+            }
+            if (kDebugMode) {
+              print(e.toString());
+            }
+            if (kDebugMode) {
+              print(e);
+            }
+          },
+        ),
+        input: CreateCheckOutRequest(checkIn.value.id, timeNow),
+      );
     }
   }
 
