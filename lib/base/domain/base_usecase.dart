@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'base_observer.dart';
 
 abstract class UseCase<T> extends _UseCase<void, T> {
@@ -55,13 +58,20 @@ abstract class _UseCase<Input, T> {
 
   Future<void> _execute({Observer<T>? observer, Input? input}) async {
     observer?.onSubscribe();
-    final StreamSubscription subscription = (await _buildUseCaseStream(input)).listen(
+    final StreamSubscription subscription =
+        (await _buildUseCaseStream(input)).listen(
       (data) {
         observer?.onSuccess(data);
       },
       onDone: observer?.onCompleted(),
-      onError: (e) {
+      onError: (e) async {
         observer?.onError(e);
+        if (e is DioError) {
+          await Sentry.captureException(
+            '[DUT-PARKING-APP]: ${e.message}',
+            stackTrace: e.stackTrace,
+          );
+        }
       },
     );
     _addSubscription(subscription);
@@ -100,7 +110,9 @@ class CompositeSubscription {
   bool get isNotEmpty => _subscriptionsList.isNotEmpty;
 
   /// Whether all managed [StreamSubscription]s are currently paused.
-  bool get allPaused => _subscriptionsList.isNotEmpty ? _subscriptionsList.every((it) => it.isPaused) : false;
+  bool get allPaused => _subscriptionsList.isNotEmpty
+      ? _subscriptionsList.every((it) => it.isPaused)
+      : false;
 
   /// Adds new subscription to this composite.
   ///
@@ -139,7 +151,8 @@ class CompositeSubscription {
   }
 
   /// Pauses all subscriptions added to this composite.
-  void pauseAll([Future? resumeSignal]) => _subscriptionsList.forEach((it) => it.pause(resumeSignal));
+  void pauseAll([Future? resumeSignal]) =>
+      _subscriptionsList.forEach((it) => it.pause(resumeSignal));
 
   /// Resumes all subscriptions added to this composite.
   void resumeAll() => _subscriptionsList.forEach((it) => it.resume());
@@ -148,5 +161,6 @@ class CompositeSubscription {
 /// Extends the [StreamSubscription] class with the ability to be added to [CompositeSubscription] container.
 extension AddToCompositeSubscriptionExtension<T> on StreamSubscription<T> {
   /// Adds this subscription to composite container for subscriptions.
-  void addTo(CompositeSubscription compositeSubscription) => compositeSubscription.add(this);
+  void addTo(CompositeSubscription compositeSubscription) =>
+      compositeSubscription.add(this);
 }
