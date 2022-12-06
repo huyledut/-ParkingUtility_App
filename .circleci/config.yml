@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  flutter-orb: circleci/flutter@1.1.0
+
 on:
   pull_request:
     
@@ -28,7 +32,3 @@ workflows:
   flutter_build:
     jobs:
       - flutter_build
-        
-      
-
-          
