@@ -15,6 +15,10 @@ class HeaderInterceptor extends InterceptorsWrapper {
         options.headers["Authorization"] = "Bearer ${account.accessToken}";
       }
       handler.next(options);
+
+      print("==================================");
+      print(options.uri);
+      print("==================================");
     });
   }
 }

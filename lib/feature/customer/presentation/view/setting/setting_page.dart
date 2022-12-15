@@ -4,7 +4,6 @@ import 'package:dut_packing_utility/base/presentation/widgets/common.dart';
 import 'package:dut_packing_utility/utils/config/app_navigation.dart';
 import 'package:dut_packing_utility/utils/config/app_text_style.dart';
 import 'package:dut_packing_utility/utils/extension/route_type.dart';
-import 'package:dut_packing_utility/utils/gen/assets.gen.dart';
 import 'package:dut_packing_utility/utils/gen/colors.gen.dart';
 import 'package:flutter/cupertino.dart';
 import '../../controller/setting/setting_controller.dart';
@@ -31,17 +30,22 @@ class SettingPage extends BaseWidget<SettingController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     child: Text(
-                      "Lịch sử",
+                      controller.customerModel.value.role == 30 ? "Lịch sử" : "Tình trạng",
                       style: AppTextStyle.w600s15(ColorName.black000),
                     ),
                   ),
                   settingItem(
                     topBorder: true,
-                    title: "Lịch sử ra/vào nhà xe",
-                    leading: const Icon(
-                      Icons.history_outlined,
-                      color: ColorName.primaryColor,
-                    ),
+                    title: controller.customerModel.value.role == 30 ? "Lịch sử ra/vào nhà xe" : "Tình trạng nhà xe",
+                    leading: controller.customerModel.value.role == 30
+                        ? const Icon(
+                            Icons.history_outlined,
+                            color: ColorName.primaryColor,
+                          )
+                        : const Icon(
+                            Icons.stacked_bar_chart,
+                            color: ColorName.primaryColor,
+                          ),
                     onPressed: controller.toHistory,
                   ),
                   const SizedBox(height: 15),
@@ -70,7 +74,7 @@ class SettingPage extends BaseWidget<SettingController> {
                       color: ColorName.primaryColor,
                     ),
                     onPressed: () {
-                      controller.displayTextInputDialog(context);
+                      controller.toChangePassword();
                     },
                   ),
                   const SizedBox(height: 15),

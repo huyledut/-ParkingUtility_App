@@ -32,46 +32,51 @@ class RootController extends GetxController {
       if (value.isNotEmpty) {
         account = AccountModel.fromJson(jsonDecode(value));
         print(account.toJson());
-        if (account.roleId == 30) {
-          _getCustomerInfoUsecase.execute(
-            observer: Observer(
-              onSubscribe: () {},
-              onSuccess: (customer) async {
-                print(customer.toJson());
-                await _storageService.setCustomer(customer.toJson().toString());
-                if (customer.name != null &&
-                    customer.gender != null &&
-                    customer.birthday != null &&
-                    customer.phoneNumber != null &&
-                    customer.activityClass != null &&
-                    customer.facultyId != null) {
+
+        _getCustomerInfoUsecase.execute(
+          observer: Observer(
+            onSubscribe: () {},
+            onSuccess: (customer) async {
+              print(customer.toJson());
+              await _storageService.setCustomer(customer.toJson().toString());
+              if (customer.name != null &&
+                  customer.gender != null &&
+                  customer.birthday != null &&
+                  customer.phoneNumber != null &&
+                  customer.activityClass != null &&
+                  customer.facultyId != null) {
+                if (account.roleId == 30) {
                   N.toHome();
                 } else {
+                  N.toStaffPage();
+                }
+              } else {
+                if (account.roleId == 30) {
                   N.toProfile();
-                }
-              },
-              onError: (e) async {
-                print(e);
-                CustomerModel customer = CustomerModel();
-                await _storageService.getCustomer().then((value) {
-                  customer = CustomerModel.fromJson(jsonDecode(value));
-                });
-                if (customer.name != null &&
-                    customer.gender != null &&
-                    customer.birthday != null &&
-                    customer.phoneNumber != null &&
-                    customer.activityClass != null &&
-                    customer.facultyId != null) {
-                  N.toHome();
                 } else {
-                  appStart();
+                  N.toStaffPage();
                 }
-              },
-            ),
-          );
-        } else {
-          N.toStaffPage();
-        }
+              }
+            },
+            onError: (e) async {
+              print(e);
+              CustomerModel customer = CustomerModel();
+              await _storageService.getCustomer().then((value) {
+                customer = CustomerModel.fromJson(jsonDecode(value));
+              });
+              if (customer.name != null &&
+                  customer.gender != null &&
+                  customer.birthday != null &&
+                  customer.phoneNumber != null &&
+                  customer.activityClass != null &&
+                  customer.facultyId != null) {
+                N.toHome();
+              } else {
+                appStart();
+              }
+            },
+          ),
+        );
       } else {
         N.toWelcomePage();
       }

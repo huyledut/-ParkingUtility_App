@@ -3,6 +3,7 @@ import 'package:dut_packing_utility/feature/customer/data/models/customer_model.
 import 'package:dut_packing_utility/feature/customer/data/models/faculties_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/history_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/models/list_history_model.dart';
+import 'package:dut_packing_utility/feature/customer/data/models/list_status_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/add_vehical_request.dart';
 import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/change_password_request.dart';
 import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/customer_update_request.dart';
@@ -17,4 +18,5 @@ abstract class CustomerRepo {
   Future<void> changePassword(ChangePasswordRequest request);
   Future<CheckInModel> getCheckIn();
   Future<ListHistoryModel> getHistory(String customerUsername);
+  Future<ListStatusModel> availableCheckIns();
 }
