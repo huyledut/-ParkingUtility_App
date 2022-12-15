@@ -107,13 +107,17 @@ class RegisterCustomerController extends BaseController {
                     print("Go to home");
                     N.toHome();
                   } else {
-                     print("Go to profile");
+                    print("Go to profile");
                     N.toProfile();
                   }
                 },
                 onError: (e) async {
                   if (e is DioError) {
-                    _showToastMessage(e.message);
+                    try {
+                      _showToastMessage(e.response!.data["message"]);
+                    } catch (e) {
+                      _showToastMessage("Opps! Có lỗi đã xảy ra");
+                    }
                   }
                   if (kDebugMode) {
                     print(e.toString());
@@ -127,9 +131,11 @@ class RegisterCustomerController extends BaseController {
           onError: (e) {
             if (e is DioError) {
               if (e.response != null) {
-                _showToastMessage(e.response!.data['message'].toString());
-              } else {
-                _showToastMessage(e.message);
+                try {
+                  _showToastMessage(e.response!.data["message"]);
+                } catch (e) {
+                  _showToastMessage("Opps! Có lỗi đã xảy ra");
+                }
               }
             }
             if (kDebugMode) {

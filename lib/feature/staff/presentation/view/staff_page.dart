@@ -128,12 +128,12 @@ class StaffPage extends BaseWidget<StaffController> {
                     Padding(
                       padding: const EdgeInsets.all(25),
                       child: CommonButton(
-                        onPressed: () => controller.logout(),
+                        onPressed: () => controller.toSetting(),
                         borderWidth: 1,
                         borderColor: ColorName.primaryColor,
                         fillColor: ColorName.primaryColor,
                         child: Text(
-                          'Đăng xuất',
+                          'Cài đặt',
                           style: AppTextStyle.w500s13(ColorName.whiteFff),
                         ),
                       ),

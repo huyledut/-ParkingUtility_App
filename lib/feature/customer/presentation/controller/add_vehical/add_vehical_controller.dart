@@ -100,10 +100,10 @@ class AddVehicalController extends BaseController {
         },
         onError: (e) async {
           if (e is DioError) {
-            if (e.response != null) {
-              _showToastMessage(e.response!.data['errors'].toString());
-            } else {
-              _showToastMessage(e.message);
+            try {
+              _showToastMessage(e.response!.data["message"]);
+            } catch (e) {
+              _showToastMessage("Opps! Có lỗi đã xảy ra");
             }
           }
           if (kDebugMode) {
@@ -137,10 +137,10 @@ class AddVehicalController extends BaseController {
           },
           onError: (e) async {
             if (e is DioError) {
-              if (e.response != null) {
-                _showToastMessage(e.response!.data['errors'].toString());
-              } else {
-                _showToastMessage(e.message);
+              try {
+                _showToastMessage(e.response!.data["message"]);
+              } catch (e) {
+                _showToastMessage("Opps! Có lỗi đã xảy ra");
               }
             }
             if (kDebugMode) {
@@ -195,10 +195,10 @@ class AddVehicalController extends BaseController {
             },
             onError: (e) async {
               if (e is DioError) {
-                if (e.response != null) {
-                  _showToastMessage(e.response!.data['errors'].toString());
-                } else {
-                  _showToastMessage(e.message);
+                try {
+                  _showToastMessage(e.response!.data["message"]);
+                } catch (e) {
+                  _showToastMessage("Opps! Có lỗi đã xảy ra");
                 }
               }
               if (kDebugMode) {
@@ -242,10 +242,10 @@ class AddVehicalController extends BaseController {
           },
           onError: (e) async {
             if (e is DioError) {
-              if (e.response != null) {
-                _showToastMessage(e.response!.data['errors'].toString());
-              } else {
-                _showToastMessage(e.message);
+              try {
+                _showToastMessage(e.response!.data["message"]);
+              } catch (e) {
+                _showToastMessage("Opps! Có lỗi đã xảy ra");
               }
             }
             if (kDebugMode) {

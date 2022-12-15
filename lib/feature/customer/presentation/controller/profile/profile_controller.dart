@@ -11,9 +11,11 @@ import 'package:dut_packing_utility/feature/customer/domain/usecases/get_faculti
 import 'package:dut_packing_utility/feature/customer/domain/usecases/update_customer_usecase.dart';
 import 'package:dut_packing_utility/utils/config/app_navigation.dart';
 import 'package:dut_packing_utility/utils/extension/form_builder.dart';
+import 'package:dut_packing_utility/utils/gen/colors.gen.dart';
 import 'package:dut_packing_utility/utils/services/storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/get.dart';
 
 class ProfileController extends BaseController<bool> {
   ProfileController(
@@ -152,11 +154,10 @@ class ProfileController extends BaseController<bool> {
           },
           onError: (e) async {
             if (e is DioError) {
-              if (e.response != null) {
-                _showToastMessage(e.response!.data['errors'].toString());
-                print(e.response!.data['errors'].toString());
-              } else {
-                _showToastMessage(e.message);
+              try {
+                _showToastMessage(e.response!.data["message"]);
+              } catch (e) {
+                _showToastMessage("Opps! Có lỗi đã xảy ra");
               }
             }
             if (kDebugMode) {
@@ -186,14 +187,35 @@ class ProfileController extends BaseController<bool> {
         onSubscribe: () {},
         onSuccess: (result) async {
           await _storageService.setCustomer(result.toJson().toString());
-          N.toHome();
+
+          if (customer.value.role == 30) {
+            N.toHome();
+          } else {
+            back();
+          }
+          Get.snackbar(
+            "Cập nhật thành công",
+            "Thông thin cá nhân của bạn đã được cập nhật",
+            margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+            duration: const Duration(seconds: 4),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: ColorName.whiteFaf,
+            animationDuration: const Duration(milliseconds: 300),
+            boxShadows: [
+              const BoxShadow(
+                offset: Offset(-8, -8),
+                blurRadius: 10,
+                color: ColorName.gray838,
+              ),
+            ],
+          );
         },
         onError: (e) async {
           if (e is DioError) {
-            if (e.response != null) {
-              _showToastMessage(e.response!.data['errors'].toString());
-            } else {
-              _showToastMessage(e.message);
+            try {
+              _showToastMessage(e.response!.data["message"]);
+            } catch (e) {
+              _showToastMessage("Opps! Có lỗi đã xảy ra");
             }
           }
           if (kDebugMode) {

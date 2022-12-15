@@ -1,3 +1,5 @@
+import 'package:dut_packing_utility/feature/authentication/presentation/view/change_password/change_password_bindings.dart';
+import 'package:dut_packing_utility/feature/authentication/presentation/view/change_password/change_password_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_bindings.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/add_vehical/add_vehical_page.dart';
 import 'package:dut_packing_utility/feature/customer/presentation/view/history/history_bindings.dart';
@@ -10,6 +12,8 @@ import 'package:dut_packing_utility/feature/customer/presentation/view/setting/s
 import 'package:dut_packing_utility/feature/customer/presentation/view/setting/setting_page.dart';
 import 'package:dut_packing_utility/feature/staff/presentation/view/staff_bindings.dart';
 import 'package:dut_packing_utility/feature/staff/presentation/view/staff_page.dart';
+import 'package:dut_packing_utility/feature/staff/presentation/view/status/status_bindings.dart';
+import 'package:dut_packing_utility/feature/staff/presentation/view/status/status_page.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
@@ -39,6 +43,8 @@ class AppRoute {
   static String addVehical = '/addVehical';
   static String setting = '/setting';
   static String history = '/history';
+  static String changePassword = '/changePassword';
+  static String availableCheckIns = '/availableCheckIns';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -105,6 +111,18 @@ class AppRoute {
       name: history,
       page: HistoryPage.new,
       binding: HistoryBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: changePassword,
+      page: ChangePasswordPage.new,
+      binding: ChangePasswordBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: availableCheckIns,
+      page: StatusPage.new,
+      binding: StatusBindings(),
       transition: Transition.cupertino,
     ),
   ];

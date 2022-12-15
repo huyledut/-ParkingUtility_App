@@ -37,13 +37,8 @@ class LoginController extends BaseController {
   void onInit() {
     super.onInit();
     if (kDebugMode) {
-      // test user
-      usernameTextEditingController.text = 'quylt123';
-      passwordTextEditingController.text = '123123';
-
-      // test staff
-      // usernameTextEditingController.text = 'admin';
-      // passwordTextEditingController.text = 'Pa\$\$w0rd';
+      usernameTextEditingController.text = 'nhanvien';
+      passwordTextEditingController.text = '123123123';
     }
   }
 
@@ -88,45 +83,58 @@ class LoginController extends BaseController {
             ignoringPointer.value = false;
 
             _storageService.setToken(account.toJson().toString());
-            if (account.roleId == 30) {
-              _getCustomerInfoUsecase.execute(
-                observer: Observer(
-                  onSubscribe: () {},
-                  onSuccess: (customer) async {
-                    print(customer.toJson());
-                    await _storageService.setCustomer(customer.toJson().toString());
-                    if (customer.name != null &&
-                        customer.gender != null &&
-                        customer.birthday != null &&
-                        customer.phoneNumber != null &&
-                        customer.activityClass != null &&
-                        customer.facultyId != null) {
-                      print("Go to home");
+
+            _getCustomerInfoUsecase.execute(
+              observer: Observer(
+                onSubscribe: () {},
+                onSuccess: (customer) async {
+                  print(customer.toJson());
+                  await _storageService.setCustomer(customer.toJson().toString());
+                  if (customer.name != null &&
+                      customer.gender != null &&
+                      customer.birthday != null &&
+                      customer.phoneNumber != null &&
+                      customer.activityClass != null &&
+                      customer.facultyId != null) {
+                    print("Go to home");
+                    if (account.roleId == 30) {
                       N.toHome();
                     } else {
-                      print("Go to profile");
+                      N.toStaffPage();
+                    }
+                  } else {
+                    print("Go to profile");
+                    if (account.roleId == 30) {
                       N.toProfile();
+                    } else {
+                      N.toStaffPage();
                     }
-                  },
-                  onError: (e) async {
-                    if (e is DioError) {
-                      _showToastMessage(e.message);
+                  }
+                },
+                onError: (e) async {
+                  if (e is DioError) {
+                    try {
+                      _showToastMessage(e.response!.data["message"]);
+                    } catch (e) {
+                      _showToastMessage("Opps! Có lỗi đã xảy ra");
                     }
-                    if (kDebugMode) {
-                      print(e.toString());
-                    }
-                    ignoringPointer.value = false;
-                    loginState.onSuccess();
-                  },
-                ),
-              );
-            } else {
-              N.toStaffPage();
-            }
+                  }
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                  ignoringPointer.value = false;
+                  loginState.onSuccess();
+                },
+              ),
+            );
           },
           onError: (e) {
             if (e is DioError) {
-              _showToastMessage(e.message);
+              try {
+                _showToastMessage(e.response!.data["message"]);
+              } catch (e) {
+                _showToastMessage("Opps! Có lỗi đã xảy ra");
+              }
             }
             if (kDebugMode) {
               print(e.toString());

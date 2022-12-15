@@ -173,18 +173,7 @@ class StaffController extends BaseController {
     }
   }
 
-  void logout() {
-    showOkCancelDialog(
-      cancelText: "Huỷ",
-      okText: "Đăng xuất",
-      message: "Bạnc chắc chắn muôn đăng xuất khỏi hệ thống?",
-      title: "Đăng xuất",
-    ).then((value) async {
-      if (value == OkCancelResult.ok) {
-        await _storageService.removeToken();
-        await _storageService.removeCustomer();
-        N.toWelcomePage();
-      }
-    });
+  void toSetting() {
+    N.toSetting();
   }
 }

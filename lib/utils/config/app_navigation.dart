@@ -54,7 +54,15 @@ class N {
     type.navigate(name: AppRoute.setting);
   }
 
-   static void toHistory({RouteType type = RouteType.to}) {
+  static void toHistory({RouteType type = RouteType.to}) {
     type.navigate(name: AppRoute.history);
+  }
+
+  static void toChangePassword({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.changePassword);
+  }
+
+  static void toAvailableCheckIns({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.availableCheckIns);
   }
 }

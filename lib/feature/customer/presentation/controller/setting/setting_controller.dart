@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:dut_packing_utility/base/presentation/base_controller.dart';
 import 'package:dut_packing_utility/base/presentation/base_widget.dart';
 import 'package:dut_packing_utility/base/presentation/widgets/common.dart';
+import 'package:dut_packing_utility/feature/authentication/data/models/account_model.dart';
+import 'package:dut_packing_utility/feature/customer/data/models/customer_model.dart';
 import 'package:dut_packing_utility/feature/customer/data/providers/remote/request/change_password_request.dart';
 import 'package:dut_packing_utility/feature/customer/domain/usecases/change_password_usecase.dart';
 import 'package:dut_packing_utility/utils/config/app_navigation.dart';
@@ -19,6 +23,16 @@ class SettingController extends BaseController {
 
   final StorageService _storageService;
   final ChangePasswordUsecase _changePasswordUsecase;
+
+  var customerModel = CustomerModel().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _storageService.getCustomer().then((value) {
+      customerModel.value = CustomerModel.fromJson(jsonDecode(value));
+    });
+  }
 
   void logout() {
     showOkCancelDialog(
@@ -42,6 +56,10 @@ class SettingController extends BaseController {
   var isShowNewPassword = true.obs;
   var isShowConfirmPassword = true.obs;
   var changePasswordState = false.obs;
+
+  void toChangePassword() {
+    N.toChangePassword();
+  }
 
   Future<void> displayTextInputDialog(BuildContext context) async {
     return showDialog(
@@ -199,6 +217,10 @@ class SettingController extends BaseController {
   }
 
   void toHistory() {
-    N.toHistory();
+    if (customerModel.value.role == 30) {
+      N.toHistory();
+    } else {
+      N.toAvailableCheckIns();
+    }
   }
 }
