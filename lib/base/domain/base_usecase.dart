@@ -67,9 +67,10 @@ abstract class _UseCase<Input, T> {
       onError: (e) async {
         observer?.onError(e);
         if (e is DioError) {
-          await Sentry.captureException(
+          await Sentry.captureMessage(
             '[DUT-PARKING-APP]: ${e.message}',
-            stackTrace: e.stackTrace,
+            level: SentryLevel.error,
+            template: e.stackTrace.toString(),
           );
         }
       },
